@@ -5,38 +5,26 @@ import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /**
  * The configuration screen for the {@link MemoWidget MemoWidget} AppWidget.
  */
-public class MemoWidgetConfigureActivity extends Activity {
+public class MemoWidgetConfigureActivity extends Activity implements View.OnClickListener{
 
     private static final String PREFS_NAME = "com.example.memo.MemoWidget";
     private static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     EditText mAppWidgetText;
-    View.OnClickListener mOnClickListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            final Context context = MemoWidgetConfigureActivity.this;
+    Typeface caveatRegular;
 
-            // When the button is clicked, store the string locally
-            String widgetText = mAppWidgetText.getText().toString();
-            saveTitlePref(context, mAppWidgetId, widgetText);
-
-            // It is the responsibility of the configuration activity to update the app widget
-            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-            MemoWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
-
-            // Make sure we pass back the original appWidgetId
-            Intent resultValue = new Intent();
-            resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
-            setResult(RESULT_OK, resultValue);
-            finish();
-        }
-    };
+    TextView textViewDisplay, textViewBackground, textViewTitle;
+    Button buttonAdd;
 
     public MemoWidgetConfigureActivity() {
         super();
@@ -57,7 +45,7 @@ public class MemoWidgetConfigureActivity extends Activity {
         if (titleValue != null) {
             return titleValue;
         } else {
-            return context.getString(R.string.appwidget_text);
+            return "";
         }
     }
 
@@ -76,9 +64,22 @@ public class MemoWidgetConfigureActivity extends Activity {
         setResult(RESULT_CANCELED);
 
         setContentView(R.layout.memo_widget_configure);
-        mAppWidgetText = findViewById(R.id.appwidget_text);
-        findViewById(R.id.add_button).setOnClickListener(mOnClickListener);
 
+        caveatRegular = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/caveat-bold.ttf");
+
+        findViewById(R.id.add_button).setOnClickListener(this);
+
+        buttonAdd = findViewById(R.id.add_button);
+        textViewBackground = findViewById(R.id.textview_memoconfig_background);
+        textViewDisplay = findViewById(R.id.textview_memoconfig_displaytxt);
+        mAppWidgetText = findViewById(R.id.appwidget_text);
+        textViewTitle = findViewById(R.id.textview_memoconfig_createnew);
+
+        buttonAdd.setTypeface(caveatRegular);
+        textViewDisplay.setTypeface(caveatRegular);
+        textViewBackground.setTypeface(caveatRegular);
+        mAppWidgetText.setTypeface(caveatRegular);
+        textViewTitle.setTypeface(caveatRegular);
         // Find the widget id from the intent.
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -94,6 +95,29 @@ public class MemoWidgetConfigureActivity extends Activity {
         }
 
         mAppWidgetText.setText(loadTitlePref(MemoWidgetConfigureActivity.this, mAppWidgetId));
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.add_button:
+                final Context context = MemoWidgetConfigureActivity.this;
+
+                // When the button is clicked, store the string locally
+                String widgetText = mAppWidgetText.getText().toString();
+                saveTitlePref(context, mAppWidgetId, widgetText);
+
+                // It is the responsibility of the configuration activity to update the app widget
+                AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+                MemoWidget.updateAppWidget(context, appWidgetManager, mAppWidgetId);
+
+                // Make sure we pass back the original appWidgetId
+                Intent resultValue = new Intent();
+                resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
+                setResult(RESULT_OK, resultValue);
+                finish();
+        }
+
     }
 }
 
