@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:configure="com.example.memo.MemoWidgetConfigureActivity"
-    android:initialKeyguardLayout="@layout/memo_widget"
-    android:initialLayout="@layout/memo_widget"
+    android:configure="com.example.memo.MemoWidget2ConfigureActivity"
+    android:initialKeyguardLayout="@layout/memo_widget2"
+    android:initialLayout="@layout/memo_widget2"
     android:minWidth="250sp"
     android:minHeight="40sp"
-    android:previewImage="@drawable/memo1_4"
+    android:previewImage="@drawable/memo_2_1"
     android:resizeMode="none"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen|keyguard">

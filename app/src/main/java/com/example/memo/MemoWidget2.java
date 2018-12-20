@@ -13,19 +13,19 @@ import android.widget.RemoteViews;
 
 /**
  * Implementation of App Widget functionality.
- * App Widget Configuration implemented in {@link MemoWidgetConfigureActivity MemoWidgetConfigureActivity}
+ * App Widget Configuration implemented in {@link MemoWidget2ConfigureActivity MemoWidget2ConfigureActivity}
  */
-public class MemoWidget extends AppWidgetProvider {
+public class MemoWidget2 extends AppWidgetProvider {
 
-    private static StaticLayout mTextLayout;
+    private static StaticLayout mTextLayout2;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
+        
+        CharSequence widgetText = MemoWidget2ConfigureActivity.loadTitlePref(context, appWidgetId);
+        String widgetText2 = MemoWidget2ConfigureActivity.loadTitlePref(context, appWidgetId);
 
-        CharSequence widgetText = MemoWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
-        String widgetText2 = MemoWidgetConfigureActivity.loadTitlePref(context, appWidgetId);
-
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.memo_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.memo_widget2);
         Bitmap myBitmap = Bitmap.createBitmap(168, 84, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(myBitmap);
         TextPaint mTextPaint=new TextPaint();
@@ -36,23 +36,22 @@ public class MemoWidget extends AppWidgetProvider {
         mTextPaint.setColor(context.getResources().getColor(R.color.textColor));
         mTextPaint.setTextSize(20);
         if(widgetText2.length() <= 49) {
-            mTextLayout = new StaticLayout(widgetText2, mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            mTextLayout2 = new StaticLayout(widgetText2, mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         }
 
         else {
-            mTextLayout = new StaticLayout(widgetText2.substring(0,50) + "...", mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            mTextLayout2 = new StaticLayout(widgetText2.substring(0,50) + "...", mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
         }
         int textX = 0;
         int textY = 0;
 
         canvas.translate(textX, textY);
-        mTextLayout.draw(canvas);
-        views.setImageViewBitmap(R.id.appwidget_text, myBitmap);
+        mTextLayout2.draw(canvas);
+        views.setImageViewBitmap(R.id.appwidget2_text, myBitmap);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
-
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -66,7 +65,7 @@ public class MemoWidget extends AppWidgetProvider {
     public void onDeleted(Context context, int[] appWidgetIds) {
         // When the user deletes the widget, delete the preference associated with it.
         for (int appWidgetId : appWidgetIds) {
-            MemoWidgetConfigureActivity.deleteTitlePref(context, appWidgetId);
+            MemoWidget2ConfigureActivity.deleteTitlePref(context, appWidgetId);
         }
     }
 

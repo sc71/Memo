@@ -6,10 +6,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
@@ -21,7 +23,9 @@ public class MemoWidgetConfigureActivity extends Activity implements View.OnClic
     private static final String PREF_PREFIX_KEY = "appwidget_";
     int mAppWidgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
     EditText mAppWidgetText;
-    Typeface caveatRegular;
+    Typeface indieFlower;
+
+    ImageView imageViewBackgroundPreview;
 
     TextView textViewDisplay, textViewBackground, textViewTitle;
     Button buttonAdd;
@@ -65,7 +69,7 @@ public class MemoWidgetConfigureActivity extends Activity implements View.OnClic
 
         setContentView(R.layout.memo_widget_configure);
 
-        caveatRegular = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/caveat-bold.ttf");
+        indieFlower = Typeface.createFromAsset(this.getApplicationContext().getAssets(), "fonts/indieflower.ttf");
 
         findViewById(R.id.add_button).setOnClickListener(this);
 
@@ -74,12 +78,17 @@ public class MemoWidgetConfigureActivity extends Activity implements View.OnClic
         textViewDisplay = findViewById(R.id.textview_memoconfig_displaytxt);
         mAppWidgetText = findViewById(R.id.appwidget_text);
         textViewTitle = findViewById(R.id.textview_memoconfig_createnew);
+        imageViewBackgroundPreview = findViewById(R.id.imageview_memoconfig_previewbkg);
 
-        buttonAdd.setTypeface(caveatRegular);
-        textViewDisplay.setTypeface(caveatRegular);
-        textViewBackground.setTypeface(caveatRegular);
-        mAppWidgetText.setTypeface(caveatRegular);
-        textViewTitle.setTypeface(caveatRegular);
+        imageViewBackgroundPreview.setOnClickListener(this);
+//        if(mAppWidgetId) {
+//            imageViewBackgroundPreview.setImageDrawable(R.drawable.memo1_4);
+//        }
+        buttonAdd.setTypeface(indieFlower);
+        textViewDisplay.setTypeface(indieFlower);
+        textViewBackground.setTypeface(indieFlower);
+        mAppWidgetText.setTypeface(indieFlower);
+        textViewTitle.setTypeface(indieFlower);
         // Find the widget id from the intent.
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
@@ -116,6 +125,7 @@ public class MemoWidgetConfigureActivity extends Activity implements View.OnClic
                 resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
                 setResult(RESULT_OK, resultValue);
                 finish();
+                break;
         }
 
     }
