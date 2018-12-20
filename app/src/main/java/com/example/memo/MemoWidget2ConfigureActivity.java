@@ -98,7 +98,6 @@ public class MemoWidget2ConfigureActivity extends Activity{
         imageViewBackgroundPreview2 = findViewById(R.id.imageview_memoconfig2_previewbkg);
 
         buttonAdd2.setOnClickListener(mOnClickListener);
-
         buttonAdd2.setTypeface(indieFlower);
         textViewDisplay2.setTypeface(indieFlower);
         textViewBackground2.setTypeface(indieFlower);

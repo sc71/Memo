@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
+import android.text.DynamicLayout;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -17,7 +18,7 @@ import android.widget.RemoteViews;
  */
 public class MemoWidget2 extends AppWidgetProvider {
 
-    private static StaticLayout mTextLayout2;
+    private static DynamicLayout mTextLayout2;
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -34,14 +35,10 @@ public class MemoWidget2 extends AppWidgetProvider {
         mTextPaint.setTypeface(mytypeface);
         mTextPaint.setAntiAlias(true);
         mTextPaint.setColor(context.getResources().getColor(R.color.textColor));
-        mTextPaint.setTextSize(20);
-        if(widgetText2.length() <= 49) {
-            mTextLayout2 = new StaticLayout(widgetText2, mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        }
+        mTextPaint.setTextSize(19);
 
-        else {
-            mTextLayout2 = new StaticLayout(widgetText2.substring(0,50) + "...", mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
-        }
+        mTextLayout2 = new DynamicLayout(widgetText2, mTextPaint, canvas.getWidth(), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+
         int textX = 0;
         int textY = 0;
 
